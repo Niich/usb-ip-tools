@@ -31,6 +31,8 @@ reload moduals
 `sudo systemctl restart systemd-modules-load.service`
 
 add the service unit files to /etc/systemd/system/
+update remote address in the client service files
+add helper file to /var/local/
 
 register the services
 
@@ -44,11 +46,22 @@ enable host services
 
 `sudo systemctl enable --now usbipd.service`
 
-`sudo systemctl enable --now usbip-bind@<usb device id>.service
+`sudo systemctl enable --now usbip-bind@<usb device id>.service`
 
 note: you need to register a usbip-bind service for each device you want to make available
 
 enable client services
+
+`sudo systemctl enable --now usbipd.service`
+
+`sudo systemctl enable --now usbip-attach@<usb device id>.service`
+
+
+barcode buddy 
+
+run evtest and get the event number of the device you want to pass 
+
+`sudo systemctl enable --now barcodegrabber@<device number>.service`
 
 
 
