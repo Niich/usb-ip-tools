@@ -1,0 +1,14 @@
+[Unit]
+Description=USB/IP server
+After=network.target usbipd.service
+Requires=usbipd.service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c "/usr/sbin/usbip bind --$(/usr/sbin/usbip list -p -l | grep '#usbid=%i#' | cut '-d#' -f1)"
+ExecStop=/bin/bash -c "/usr/sbin/usbip unbind --$(/usr/sbin/usbip list -p -l | grep '#usbid=%i#' | cut '-d#' -f1)"
+RemainAfterExit=yes
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
