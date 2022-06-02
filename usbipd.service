@@ -1,0 +1,12 @@
+[Unit]
+Description=USB/IP server daemon
+After=network.target
+
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/usbipd
+
+[Install]
+WantedBy=multi-user.target
