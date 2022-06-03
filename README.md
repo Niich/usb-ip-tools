@@ -33,6 +33,7 @@ reload moduals
 add the service unit files to /etc/systemd/system/
 update remote address in the client service files
 add helper file to /var/local/
+make helper file exacutable `chmod +x`
 
 register the services
 
