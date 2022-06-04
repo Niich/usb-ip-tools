@@ -8,7 +8,8 @@ EOF
 
 systemctl restart systemd-modules-load.service
 
-cp ./*.service /etc/systemd/system/
+cp -v ./*.service /etc/systemd/system/
+cp -v ./usbip-service-helper.sh /var/local/
 
 systemctl daemon-reload
 
