@@ -2,12 +2,16 @@
 Description=USB/IP client service
 After=network.target
 Requires=usbipd.service
+StartLimitBurst=20
+StartLimitIntervalSec=60
 
 [Service]
 Type=oneshot
 ExecStart=/var/local/usbip-service-helper.sh -s usp-ip -a ATTACH -u %i
 ExecStop=/var/local/usbip-service-helper.sh -s usp-ip -a DETACH -u %i
 RemainAfterExit=yes
+Restart=on-failure
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
