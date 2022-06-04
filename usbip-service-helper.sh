@@ -45,11 +45,14 @@ echo "action: $Action"
 
 case $Action in
      ATTACH)
-        /bin/bash -c "$usbippath attach -r $ServerAddress -b $(/usr/lib/linux-tools/$(uname -r)/usbip list -r $ServerAddress | grep $USBId | cut -d: -f1)";;
+        retBusId=$(/usr/lib/linux-tools/$(uname -r)/usbip list -r $ServerAddress | grep $USBId | cut -d: -f1 | xargs)
+        echo "Requesting attach to: $USBId \t Returned BusId: $retBusId";
+        /bin/bash -c "$usbippath attach -r $ServerAddress -b $retBusId";;
      DETACH)
-        port=$(/usr/lib/linux-tools/$(uname -r)/usbip port | sed -rn "/$USBId/{x;p;d;}; x" | grep '<Port in Use>' | sed -E 's/^Port ([0-9][0-9]).*/\1/');
+        port=$(/usr/lib/linux-tools/$(uname -r)/usbip port | sed -rn "/$USBId/{x;p;d;}; x" | grep '<Port in Use>' | sed -E 's/^Port ([0-9][0-9]).*/\1/' | xargs);
+        echo "Requested device detach: $USBId \t Returned port: $port";
         /bin/bash -c "$usbippath detach --port=$port";;
      \?)  # Invalid option
-         echo "Error: Invalid Action $Action. Valid options are ATTACH | DETACH"
-         exit;;
+        echo "Error: Invalid Action $Action. Valid options are ATTACH | DETACH"
+        exit;;
 esac
