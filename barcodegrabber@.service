@@ -1,0 +1,14 @@
+[Unit]
+Description=barcode buddy input grabber
+After=network.target usbipd.service
+Requires=usbipd.service
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+ExecStart=/bin/bash /var/www/html/barcodebuddy/example/grabInput.sh /dev/input/event%i
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
