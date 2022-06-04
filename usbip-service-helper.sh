@@ -37,7 +37,6 @@ while getopts "h:s:u:a:" option; do
          echo "Error: Invalid option"
          exit;;
    esac
-done
 
 # find the usbip path
 usbippath=$(which usbip)
@@ -47,7 +46,7 @@ case $Action in
      ATTACH)
         /bin/bash -c "$usbippath attach -r $ServerAddress -b $(/usr/lib/linux-tools/$(uname -r)/usbip list -r $ServerAddress | grep $USBId | cut -d: -f1)";;
      DETACH)
-        /bin/bash -c "$usbippath detach --port=$(/usr/lib/linux-tools/$(uname -r)/usbip port | grep '<Port in Use>' | sed -E 's/^Port ([0-9][0-9]).*/\1/')";;
+        /bin/bash -c "$usbippath detach --port=$(/usr/lib/linux-tools/$(uname -r)/usbip port | sed -rn "/$USBId/{x;p;d;}; x" | grep '<Port in Use>' | sed -E 's/^Port ([0-9][0-9]).*/\1/')";;
      \?)  # Invalid option
          echo "Error: Invalid Action $Action. Valid options are ATTACH | DETACH"
          exit;;
